@@ -35,39 +35,39 @@ class Parser():
         self.stack.push(self.root)
 
     def predictive(self):
-        self.curr = self.stack.top()
-        self.prev = self.curr
-        self.a = self.token_stream.get_next_token()
-        while self.curr.name != self.end_sym.name:
+        curr = self.stack.top()
+        prev = curr
+        a = self.token_stream.get_next_token()
+        while curr.name != self.end_sym.name:
 
-            if self.curr.name == self.a.name:
-                self.prev.append_leaf(self.a)
+            if curr.name == a.name:
+                prev.append_leaf(a)
 
                 self.stack.pop()
-                self.a = self.token_stream.get_next_token()
-            elif isinstance(self.curr, Token):
-                raise ValueError("Un token no debería llegar hasta aquí. X: name=%s value=%d attr=%s" % (self.curr.name, self.curr.value, self.curr.attr))
-            elif not self.ptable[self.curr.value][self.a.value]:
-                raise ValueError("No hay entrada para X = %s (%d), a = %s (%d)" % (self.curr.name, self.curr.value, self.a.name, self.a.value))
+                a = self.token_stream.get_next_token()
+            elif isinstance(curr, Token):
+                raise ValueError("Un token no debería llegar hasta aquí. X: name=%s value=%d attr=%s" % (curr.name, curr.value, curr.attr))
+            elif not self.ptable[curr.value][a.value]:
+                raise ValueError("No hay entrada para X = %s (%d), a = %s (%d)" % (curr.name, curr.value, a.name, a.value))
             else:
-                production = self.ptable[self.curr.value][self.a.value]
+                production = self.ptable[curr.value][a.value]
 
                 self.creatnreplace_ints(production)
-                self.append_ints(production)
+                self.append_ints(production, curr)
 
                 self.stack.pop()
                 self.push_production(production)
 
-            self.prev = self.curr
-            self.curr = self.stack.top()
+            prev = curr
+            curr = self.stack.top()
         return self.root
 
-    def append_ints(self, production):
+    def append_ints(self, production, node):
         for i in range(len(production)):
             g_sym = production[i]
             if isinstance(g_sym, TERM):
                 continue
-            self.curr.append_interior(g_sym)
+            node.append_interior(g_sym)
 
     def creatnreplace_ints(self, production):
         for i in range(len(production)):
