@@ -1,6 +1,7 @@
 import enum
 
 # ===================== GRAMMAR-SYMBOL INTERFACE (== Enum interface) =====================
+
 class Grammar_Symbol():
     def __init__(self, name, value):
         self.name = name

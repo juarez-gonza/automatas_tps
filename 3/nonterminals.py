@@ -1,6 +1,7 @@
+from grammar_symbols import *
+
 # ===================== NON-TERMINALS =====================
 
-from grammar_symbols import *
 class Non_Term(Grammar_Symbol):
     def __init__(self, name, value):
         self.leaves = []
@@ -69,7 +70,7 @@ class T_(Non_Term):
         super().__init__(name, value)
 
     def walk_arithmetic(self, inh=None):
-        if not self.leaves and not self.interiors:
+        if not self.interiors:
             return inh
         val_F = self.interiors[0].walk_arithmetic()
         val_T_ = self.interiors[1].walk_arithmetic(inh * val_F)

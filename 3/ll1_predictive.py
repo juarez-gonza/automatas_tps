@@ -37,20 +37,21 @@ class Parser():
     def predictive(self):
         curr = self.stack.top()
         prev = curr
-        a = self.token_stream.get_next_token()
+        nxt_token = self.token_stream.get_next_token()
+
         while curr.name != self.end_sym.name:
 
-            if curr.name == a.name:
-                prev.append_leaf(a)
+            if curr.name == nxt_token.name:
+                prev.append_leaf(nxt_token)
 
                 self.stack.pop()
-                a = self.token_stream.get_next_token()
+                nxt_token = self.token_stream.get_next_token()
             elif isinstance(curr, Token):
                 raise ValueError("Un token no debería llegar hasta aquí. X: name=%s value=%d attr=%s" % (curr.name, curr.value, curr.attr))
-            elif not self.ptable[curr.value][a.value]:
-                raise ValueError("No hay entrada para X = %s (%d), a = %s (%d)" % (curr.name, curr.value, a.name, a.value))
+            elif not self.ptable[curr.value][nxt_token.value]:
+                raise ValueError("No hay entrada para X = %s (%d), a = %s (%d)" % (curr.name, curr.value, nxt_token.name, nxt_token.value))
             else:
-                production = self.ptable[curr.value][a.value]
+                production = self.ptable[curr.value][nxt_token.value]
 
                 self.creatnreplace_ints(production)
                 self.append_ints(production, curr)
@@ -60,6 +61,7 @@ class Parser():
 
             prev = curr
             curr = self.stack.top()
+
         return self.root
 
     def append_ints(self, production, node):
