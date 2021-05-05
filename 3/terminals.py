@@ -2,6 +2,8 @@ import re
 
 from grammar_symbols import *
 
+# ===================== TERMINALS =====================
+
 class Token(Grammar_Symbol):
     token_patterns = [
         #re.compile("[a-zA-Z_]+"),   # ID -> [a-zA-Z_]+

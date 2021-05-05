@@ -1,3 +1,5 @@
+# ===================== NON-TERMINALS =====================
+
 from grammar_symbols import *
 class Non_Term(Grammar_Symbol):
     def __init__(self, name, value):

@@ -3,9 +3,10 @@ from nonterminals import *
 from terminals import *
 from stack import *
 
+# ===================== PARSER =====================
+
 # Compilers: Principles, Techniques, & Tools - 2nd Edition
 #       4.4.4: Nonrecursive Predictive Parsing
-
 
 #       NON-TERMINAL   |  INPUT SYMBOL
 #                      |  [0] = num     [1] = +     [2] = *     [3] = (         [4] = )     [5] = $
