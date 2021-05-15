@@ -35,7 +35,7 @@ class Turing():
         curr = self.tape[self.th]
         ok = True
 
-        while curr != self.alfabeto.B_:
+        while True:
 
             tr = self.tb[self.st.value][curr.value]
             if not tr:
@@ -58,5 +58,10 @@ class Turing():
                 self.th += 1
 
             curr = self.tape[self.th]
+
+            # Si fuera la condición de while loop la cadena vacía siempre se aceptaría
+            # que solo es el caso para regex de la forma (x)*
+            if curr == self.alfabeto.B_:
+                break
 
         self.report.gen_log(ok)

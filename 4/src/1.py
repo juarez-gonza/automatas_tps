@@ -21,19 +21,19 @@ class Alfabeto(Enum):
             return Alfabeto.b
         raise ValueError("Caracter no presente en el alfabeto")
 
-#                   a = 0           b = 1
+#                   a = 0           b = 1           B_
 #           [
-# A = 0         [[B, B_, R],         [C, B_, R]]
-# B = 1         [[B, B_, R],         []]
-# C = 2         [[D, B_, R],         []]
-# D = 3         [[],                 []]
+# A = 0         [[B, B_, R],         [C, B_, R]     []]
+# B = 1         [[B, B_, R],         []             []]
+# C = 2         [[D, B_, R],         []             []]
+# D = 3         [[],                 []             [D, B_, L]] <-- Estado final
 #           ]
 
 tb = [
-        [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R)],
-        [Transition(Estado.B, Alfabeto.B_, Direccion.R), None],
-        [Transition(Estado.D, Alfabeto.B_, Direccion.R), None],
-        [None, None]
+        [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), None],
+        [Transition(Estado.B, Alfabeto.B_, Direccion.R), None, None],
+        [Transition(Estado.D, Alfabeto.B_, Direccion.R), None, None],
+        [None, None, Transition(Estado.D, Alfabeto.B_, Direccion.L)]
 ]
 
 if __name__ == "__main__":
