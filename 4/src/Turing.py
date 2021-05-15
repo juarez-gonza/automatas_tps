@@ -5,10 +5,6 @@ class Direccion(Enum):
     R = 1
 
 class Turing():
-    st_idx = 0
-    char_idx = 1
-    dir_idx = 2
-
     def __init__(self, tb, init_st, alfabeto):
         self.tb = tb
         self.tape = []
