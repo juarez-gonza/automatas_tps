@@ -5,10 +5,11 @@ class Direccion(Enum):
     R = 1
 
 class Transition():
-    def __init__(self, nxt_st, nxt_alpha, nxt_dir):
+    def __init__(self, nxt_st, nxt_alpha, nxt_dir, final=False):
         self.nxt_st = nxt_st
         self.nxt_alpha = nxt_alpha
         self.nxt_dir = nxt_dir
+        self.final = final
 
     def get_nxt_st(self):
         return self.nxt_st
@@ -18,6 +19,9 @@ class Transition():
 
     def get_nxt_dir(self):
         return self.nxt_dir
+
+    def isfinal(self):
+        return self.final
 
 class Turing():
     def __init__(self, tb, init_st, alfabeto, report):
@@ -46,6 +50,7 @@ class Turing():
             nxt_st = tr.get_nxt_st()
             nxt_alpha = tr.get_nxt_alpha()
             nxt_dir = tr.get_nxt_dir()
+            isfinal = tr.isfinal()
 
             self.report.summit(self.st.name, curr.name, nxt_st.name)
 
@@ -61,7 +66,7 @@ class Turing():
 
             # Si fuera la condición de while loop la cadena vacía siempre se aceptaría
             # que solo es el caso para regex de la forma (x)*
-            if curr == self.alfabeto.B_:
+            if isfinal and curr == self.alfabeto.B_:
                 break
 
         self.report.gen_log(ok)

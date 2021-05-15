@@ -30,10 +30,10 @@ class Alfabeto(Enum):
 #           ]
 
 tb = [
-        [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), Transition(Estado.A, Alfabeto.B_, Direccion.L)],
+        [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), Transition(Estado.A, Alfabeto.B_, Direccion.L, True)],
         [Transition(Estado.B, Alfabeto.B_, Direccion.R), None, None],
         [Transition(Estado.D, Alfabeto.B_, Direccion.R), None, None],
-        [None, None, Transition(Estado.D, Alfabeto.B_, Direccion.L)]
+        [None, None, Transition(Estado.D, Alfabeto.B_, Direccion.L, True)]
 ]
 
 if __name__ == "__main__":
