@@ -40,6 +40,7 @@ class Turing():
             tr = self.tb[self.st.value][curr.value]
             if not tr:
                 ok = False
+                self.report.summit(self.st.name, curr.name, "/")
                 break
 
             nxt_st = tr.get_nxt_st()

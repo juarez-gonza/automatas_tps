@@ -51,7 +51,6 @@ class RPrinter(Report):
         horiz_sep = self.sep4sample(sample, maxlen)
         hdr = self.row4values(sample.keys())
 
-
         out.append(horiz_sep)
         out.append(hdr)
         out.append(horiz_sep)
