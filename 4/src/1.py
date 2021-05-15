@@ -21,7 +21,7 @@ class Alfabeto(Enum):
             return Alfabeto.b
         raise ValueError("Caracter no presente en el alfabeto")
 
-#                   a = 0           b = 1           B_
+#                   a = 0           b = 1           B_ = 2
 #           [
 # A = 0         [[B, B_, R],         [C, B_, R]     [A, B_, L] <-- Estado final ]
 # B = 1         [[B, B_, R],         []             []]
