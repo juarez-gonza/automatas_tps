@@ -20,29 +20,33 @@ class Transition():
         return self.nxt_dir
 
 class Turing():
-    def __init__(self, tb, init_st, alfabeto):
+    def __init__(self, tb, init_st, alfabeto, report):
         self.tb = tb
         self.tape = []
         self.th = 0
         self.st = init_st
         self.alfabeto = alfabeto
+        self.report = report
 
     def init_tape(self, string):
         self.tape = [self.alfabeto.get_alpha(c) for c in string] + [self.alfabeto.B_]
 
     def run(self):
         curr = self.tape[self.th]
+        ok = True
 
         while curr != self.alfabeto.B_:
 
-            trans = self.tb[self.st.value][curr.value]
-            if not trans:
-                raise ValueError("No existe transición", self.st, curr)
+            tr = self.tb[self.st.value][curr.value]
+            if not tr:
+                ok = False
+                break
 
-            nxt_st = trans.get_nxt_st()
-            nxt_alpha = trans.get_nxt_alpha()
-            nxt_dir = trans.get_nxt_dir()
+            nxt_st = tr.get_nxt_st()
+            nxt_alpha = tr.get_nxt_alpha()
+            nxt_dir = tr.get_nxt_dir()
 
+            self.report.summit(self.st.name, curr.name, nxt_st.name)
 
             self.st = nxt_st
             self.tape[self.th] = nxt_alpha
@@ -53,3 +57,5 @@ class Turing():
                 self.th += 1
 
             curr = self.tape[self.th]
+
+        self.report.gen_log(ok)

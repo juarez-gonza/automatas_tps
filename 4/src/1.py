@@ -1,5 +1,6 @@
 from enum import Enum
 from Turing import *
+from Report import *
 
 class Estado(Enum):
     A = 0
@@ -29,13 +30,13 @@ class Alfabeto(Enum):
 #           ]
 
 tb = [
-        [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.B, Alfabeto.B_, Direccion.R)],
+        [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R)],
         [Transition(Estado.B, Alfabeto.B_, Direccion.R), None],
         [Transition(Estado.D, Alfabeto.B_, Direccion.R), None],
         [None, None]
 ]
 
 if __name__ == "__main__":
-    t = Turing(tb, Estado.A, Alfabeto)
+    t = Turing(tb, Estado.A, Alfabeto, RPrinter())
     t.init_tape("ba")
     t.run()
