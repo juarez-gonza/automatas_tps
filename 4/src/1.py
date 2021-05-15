@@ -23,14 +23,14 @@ class Alfabeto(Enum):
 
 #                   a = 0           b = 1           B_
 #           [
-# A = 0         [[B, B_, R],         [C, B_, R]     []]
+# A = 0         [[B, B_, R],         [C, B_, R]     [A, B_, L] <-- Estado final ]
 # B = 1         [[B, B_, R],         []             []]
 # C = 2         [[D, B_, R],         []             []]
-# D = 3         [[],                 []             [D, B_, L]] <-- Estado final
+# D = 3         [[],                 []             [D, B_, L] <-- Estado final ]
 #           ]
 
 tb = [
-        [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), None],
+        [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), Transition(Estado.A, Alfabeto.B_, Direccion.L)],
         [Transition(Estado.B, Alfabeto.B_, Direccion.R), None, None],
         [Transition(Estado.D, Alfabeto.B_, Direccion.R), None, None],
         [None, None, Transition(Estado.D, Alfabeto.B_, Direccion.L)]
