@@ -28,10 +28,15 @@ class Turing():
             if not trans:
                 raise ValueError("No existe transición", self.st, curr)
 
-            self.st = trans[Turing.st_idx]
-            self.tape[self.th] = trans[Turing.char_idx]
+            nxt_st = trans.get_nxt_st()
+            nxt_alpha = trans.get_nxt_alpha()
+            nxt_dir = trans.get_nxt_dir()
 
-            if trans[Turing.dir_idx] == Direccion.L:
+
+            self.st = nxt_st
+            self.tape[self.th] = nxt_alpha
+
+            if nxt_dir == Direccion.L:
                 self.th -= 1
             else:
                 self.th += 1
