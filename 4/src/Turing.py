@@ -4,6 +4,21 @@ class Direccion(Enum):
     L = 0
     R = 1
 
+class Transition():
+    def __init__(self, nxt_st, nxt_alpha, nxt_dir):
+        self.nxt_st = nxt_st
+        self.nxt_alpha = nxt_alpha
+        self.nxt_dir = nxt_dir
+
+    def get_nxt_st(self):
+        return self.nxt_st
+
+    def get_nxt_alpha(self):
+        return self.nxt_alpha
+
+    def get_nxt_dir(self):
+        return self.nxt_dir
+
 class Turing():
     def __init__(self, tb, init_st, alfabeto):
         self.tb = tb
@@ -36,6 +51,5 @@ class Turing():
                 self.th -= 1
             else:
                 self.th += 1
-            print(self.tape)
 
             curr = self.tape[self.th]

@@ -20,21 +20,6 @@ class Alfabeto(Enum):
             return Alfabeto.b
         raise ValueError("Caracter no presente en el alfabeto")
 
-class Transition():
-    def __init__(self, nxt_st, nxt_alpha, nxt_dir):
-        self.nxt_st = nxt_st
-        self.nxt_alpha = nxt_alpha
-        self.nxt_dir = nxt_dir
-
-    def get_nxt_st(self):
-        return self.nxt_st
-
-    def get_nxt_alpha(self):
-        return self.nxt_alpha
-
-    def get_nxt_dir(self):
-        return self.nxt_dir
-
 #                   a = 0           b = 1
 #           [
 # A = 0         [[B, B_, R],         [C, B_, R]]
