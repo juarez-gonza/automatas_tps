@@ -33,8 +33,8 @@ class Alfabeto(Enum):
 
 tb = [
         [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), None],
-        [Transition(Estado.D, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), Transition(Estado.B, Alfabeto.B_, Direccion.L)],
-        [None, None, Transition(Estado.C, Alfabeto.B_, Direccion.L)],
+        [Transition(Estado.D, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), Transition(Estado.B, Alfabeto.B_, Direccion.L, True)],
+        [None, None, Transition(Estado.C, Alfabeto.B_, Direccion.L, True)],
         [Transition(Estado.D, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), None],
 ]
 
