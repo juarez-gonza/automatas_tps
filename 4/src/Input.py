@@ -1,4 +1,6 @@
 class Input:
+    # kwargs puede ser usado por input para el tester (setear el input)
+    # o para el nombre de un archivo en el caso de toma de input por archivo
     def take_input(self, **kwargs):
         pass
 

@@ -82,6 +82,6 @@ class RPrinter(Report):
 # Exactamente igual a Input, pero su uso es diferente
 # Input es más bien la clase a expander por aquellas que la hereden
 # RTester es el stub usado por el tester para no generar output innecesario
-class RTester():
+class RTester(Report):
     def __init__(self):
         super().__init__()
