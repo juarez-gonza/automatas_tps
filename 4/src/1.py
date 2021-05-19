@@ -36,7 +36,14 @@ tb = [
         [None, None, Transition(Estado.D, Alfabeto.B_, Direccion.L, True)]
 ]
 
-if __name__ == "__main__":
-    t = Turing(tb, Estado.A, Alfabeto, RPrinter())
+def main():
+    printer = RPrinter()
+    t = Turing(tb, Estado.A, Alfabeto, printer)
+
     t.init_tape("ba")
-    t.run()
+
+    status = t.run()
+    printer.gen_log()
+
+if __name__ == "__main__":
+    main()

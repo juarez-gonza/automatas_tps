@@ -37,13 +37,13 @@ class Turing():
 
     def run(self):
         curr = self.tape[self.th]
-        ok = True
+        status = True
 
         while True:
 
             tr = self.tb[self.st.value][curr.value]
             if not tr:
-                ok = False
+                status = False
                 self.report.summit(self.st.name, curr.name, "/")
                 break
 
@@ -69,4 +69,6 @@ class Turing():
             if isfinal and curr == self.alfabeto.B_:
                 break
 
-        self.report.gen_log(ok)
+        self.report.set_status(status)
+
+        return status

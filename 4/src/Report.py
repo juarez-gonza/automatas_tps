@@ -1,6 +1,7 @@
 class Report():
     def __init__(self):
         self.hist = []
+        self.status = None
 
     def summit(self, curr_st, curr_c, nxt_st):
         entry = {
@@ -10,7 +11,12 @@ class Report():
         }
         self.hist.append(entry)
 
-    def gen_log(self, ok):
+    def set_status(self, status):
+        if not isinstance(status, bool):
+            raise ValueError("Report.status %s no es de tipo bool" % status)
+        self.status = status
+
+    def gen_log(self):
         pass
 
 class RPrinter(Report):
@@ -40,7 +46,7 @@ class RPrinter(Report):
             i += 1
         return horiz_sep
 
-    def gen_log(self, ok):
+    def gen_log(self):
         out = []
         sample = self.hist[0]
 
@@ -68,7 +74,7 @@ class RPrinter(Report):
             i += 1
             print("")
 
-        if ok:
+        if self.status:
             print("\n\t\tINPUT ACEPTADO :)\n")
         else:
             print("\n\t\tINPUT RECHAZADO :/\n")
