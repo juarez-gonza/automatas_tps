@@ -1,9 +1,9 @@
 class Input:
-    def take_input(self):
+    def take_input(self, **kwargs):
         pass
 
 class CLI_Input(Input):
-    def take_input(self):
+    def take_input(self, **kwargs):
         msg = "Ingresar cadena a evaluar:"
         horiz_sep = "+" + "-" * (len(msg) + 2) + "+"
         vert_br = "|"
@@ -11,4 +11,9 @@ class CLI_Input(Input):
             "\n" + horiz_sep
         print(cuadro)
         inp = input("\t----> ")
+        return inp
+
+class Input_Tester(Input):
+    def take_input(self, **kwargs):
+        inp = kwargs["inp"]
         return inp
