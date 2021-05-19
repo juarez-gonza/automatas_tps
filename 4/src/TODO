@@ -1,0 +1,4 @@
+TODO:
+	- codigo de ejercicio 2
+	- tests para codigo de ejercicio 2
+	- test_raise_alpha para testear excepción levantada por input con al menos un caracter ajeno al alfabeto
