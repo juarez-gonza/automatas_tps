@@ -78,3 +78,10 @@ class RPrinter(Report):
             print("\n\t\tINPUT ACEPTADO :)\n")
         else:
             print("\n\t\tINPUT RECHAZADO :/\n")
+
+# Exactamente igual a Input, pero su uso es diferente
+# Input es más bien la clase a expander por aquellas que la hereden
+# RTester es el stub usado por el tester para no generar output innecesario
+class RTester():
+    def __init__(self):
+        super().__init__()

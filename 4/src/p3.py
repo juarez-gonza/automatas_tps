@@ -12,6 +12,10 @@ class Estado(Enum):
     C = 2
     D = 3
 
+    @staticmethod
+    def get_init_st():
+        return Estado.A
+
 class Alfabeto(Enum):
     a = 0
     b = 1
@@ -46,5 +50,5 @@ tb = [
 if __name__ == '__main__':
     reporter = RPrinter()
     input_m = CLI_Input()
-    t = Turing(tb, Estado.A, Alfabeto, reporter)
+    t = Turing(tb, Estado.get_init_st(), Alfabeto, reporter)
     fmain(t, reporter, input_m)
