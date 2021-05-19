@@ -1,6 +1,10 @@
 from enum import Enum
 from Turing import *
 from Report import *
+from Input import *
+from falsemain import *
+
+# Expresión regular: a*b|a
 
 class Estado(Enum):
     A = 0
@@ -40,6 +44,7 @@ tb = [
 
 
 if __name__ == '__main__':
-    t = Turing(tb, Estado.A, Alfabeto, RPrinter())
-    t.init_tape('aaaab')
-    t.run()
+    reporter = RPrinter()
+    input_m = CLI_Input()
+    t = Turing(tb, Estado.A, Alfabeto, reporter)
+    fmain(t, reporter, input_m)

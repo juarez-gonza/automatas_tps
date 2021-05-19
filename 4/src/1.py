@@ -1,6 +1,10 @@
 from enum import Enum
 from Turing import *
 from Report import *
+from Input import *
+from falsemain import *
+
+# Expresión regular: a*|ba
 
 class Estado(Enum):
     A = 0
@@ -36,14 +40,8 @@ tb = [
         [None, None, Transition(Estado.D, Alfabeto.B_, Direccion.L, True)]
 ]
 
-def main():
-    printer = RPrinter()
-    t = Turing(tb, Estado.A, Alfabeto, printer)
-
-    t.init_tape("ba")
-
-    status = t.run()
-    printer.gen_log()
-
 if __name__ == "__main__":
-    main()
+    reporter = RPrinter()
+    input_m = CLI_Input()
+    t = Turing(tb, Estado.A, Alfabeto, reporter)
+    fmain(t, reporter, input_m)
