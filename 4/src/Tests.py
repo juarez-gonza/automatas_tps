@@ -39,3 +39,6 @@ class Test_Turing(unittest.TestCase):
             for string in tm["reject"]:
                 t = Turing(tm["tb"], tm["estados"].get_init_st(), tm["alfabeto"], reporter)
                 self.assertFalse(fmain(t, reporter, self.input_m, inp=string))
+
+if __name__ == "__main__":
+    unittest.main()
