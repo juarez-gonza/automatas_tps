@@ -1,7 +1,9 @@
 import unittest
 
 import p1
+import p2
 import p3
+
 from Turing import Turing
 from Input import Input_Tester
 from Report import RTester
@@ -16,6 +18,13 @@ class Test_Turing(unittest.TestCase):
             "tb": p1.tb,
             "ok": ["", "a", "aaaaaa", "ba"],
             "reject": ["b", "ab", "aaaaaaaaaaaab"]
+        },
+        {
+            "estados": p2.Estado,
+            "alfabeto": p2.Alfabeto,
+            "tb": p2.tb,
+            "ok": ["", "x", "yx", "xyx", "xyxxyxyx"],
+            "reject": ["xy", "xxy", "y"]
         },
         {
             "estados": p3.Estado,
