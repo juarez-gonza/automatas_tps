@@ -13,26 +13,27 @@ class Test_Turing(unittest.TestCase):
     def setUp(self):
         self.tms = [
         {
-            "estados": p1.Estado,
+            "estados": p1.Estados,
             "alfabeto": p1.Alfabeto,
             "tb": p1.tb,
             "ok": ["", "a", "aaaaaa", "ba"],
             "reject": ["b", "ab", "aaaaaaaaaaaab"]
         },
         {
-            "estados": p2.Estado,
+            "estados": p2.Estados,
             "alfabeto": p2.Alfabeto,
             "tb": p2.tb,
             "ok": ["", "x", "yx", "xyx", "xyxxyxyx"],
             "reject": ["xy", "xxy", "y"]
         },
         {
-            "estados": p3.Estado,
+            "estados": p3.Estados,
             "alfabeto": p3.Alfabeto,
             "tb": p3.tb,
             "ok": ["b", "a", "ab", "aaaaaaaaaaaaab"],
             "reject": ["aa", "ba", "aaaaaaaaaaaaaaaa"]
-        }]
+        }
+        ]
         self.input_m = Input_Tester()
 
     def test_accept(self):

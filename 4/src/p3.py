@@ -6,7 +6,7 @@ from falsemain import *
 
 # Expresión regular: a*b|a
 
-class Estado(Enum):
+class Estados(Enum):
     A = 0
     B = 1
     C = 2
@@ -14,7 +14,14 @@ class Estado(Enum):
 
     @staticmethod
     def get_init_st():
-        return Estado.A
+        return Estados.A
+
+    @staticmethod
+    def isfinal(st):
+        fstates = [Estados.B.name, Estados.C.name]
+        if st.name in fstates:
+            return True
+        return False
 
 class Alfabeto(Enum):
     a = 0
@@ -38,14 +45,14 @@ class Alfabeto(Enum):
 #           ]
 
 tb = [
-        [Transition(Estado.B, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), None],
-        [Transition(Estado.D, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), Transition(Estado.B, Alfabeto.B_, Direccion.L, True)],
-        [None, None, Transition(Estado.C, Alfabeto.B_, Direccion.L, True)],
-        [Transition(Estado.D, Alfabeto.B_, Direccion.R), Transition(Estado.C, Alfabeto.B_, Direccion.R), None],
+        [Transition(Estados.B, Alfabeto.B_, Direccion.R), Transition(Estados.C, Alfabeto.B_, Direccion.R), None],
+        [Transition(Estados.D, Alfabeto.B_, Direccion.R), Transition(Estados.C, Alfabeto.B_, Direccion.R), Transition(Estados.B, Alfabeto.B_, Direccion.L)],
+        [None, None, Transition(Estados.C, Alfabeto.B_, Direccion.L)],
+        [Transition(Estados.D, Alfabeto.B_, Direccion.R), Transition(Estados.C, Alfabeto.B_, Direccion.R), None],
 ]
 
 if __name__ == '__main__':
     reporter = RPrinter()
     input_m = CLI_Input()
-    t = Turing(tb, Estado.get_init_st(), Alfabeto, reporter)
+    t = Turing(tb, Estados, Alfabeto, reporter)
     fmain(t, reporter, input_m)
