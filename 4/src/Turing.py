@@ -62,7 +62,7 @@ class Turing():
 
             # Si fuera la condición de while loop la cadena vacía siempre se aceptaría
             # que solo es el caso para regex de la forma (x)*
-            if curr_st.isfinal(curr_st) and curr_alpha == self.alfabeto.B_:
+            if self.estados.isfinal(curr_st) and curr_alpha == self.alfabeto.B_:
                 break
 
         self.report.set_status(status)
