@@ -40,15 +40,17 @@ class Test_Turing(unittest.TestCase):
         for tm in self.tms:
             reporter = RTester()
             for string in tm["ok"]:
-                t = Turing(tm["tb"], tm["estados"].get_init_st(), tm["alfabeto"], reporter)
-                self.assertTrue(fmain(t, reporter, self.input_m, inp=string))
+                t = Turing(tm["tb"], tm["estados"], tm["alfabeto"], reporter)
+                out = fmain(t, reporter, self.input_m, inp=string)
+                self.assertTrue(out)
 
     def test_reject(self):
         for tm in self.tms:
             reporter = RTester()
             for string in tm["reject"]:
-                t = Turing(tm["tb"], tm["estados"].get_init_st(), tm["alfabeto"], reporter)
-                self.assertFalse(fmain(t, reporter, self.input_m, inp=string))
+                t = Turing(tm["tb"], tm["estados"], tm["alfabeto"], reporter)
+                out = fmain(t, reporter, self.input_m, inp=string)
+                self.assertFalse(out)
 
 if __name__ == "__main__":
     unittest.main()
