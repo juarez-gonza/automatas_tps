@@ -1,61 +1,48 @@
-import getopt
-from fecha import *
+import sys
 
 class Input:
-    # kwargs puede ser usado por input para el tester (setear el input)
-    # o para el nombre de un archivo en el caso de toma de input por archivo
-    def take_input(self, **kwargs):
+    def input_all(self):
         pass
 
+    def input_line(self):
+        pass
+
+    def abs_seek(self, pos):
+        pass
+
+CLI_INPUT = 1
 class CLI_Input(Input):
-    def take_input(self, **kwargs):
-        argsp = {
-            "user": None,
-            # valores default para delimitar el rango
-            "rango_init": None,
-            "rango_fin": None,
-        }
-        while not argsp["user"]:
-            argsp["user"] = input("Ingresar nombre del usuario a trackear: ").replace("\n", "")
+    def __init__(self, msg):
+        self.msg = msg
 
-        try:
-            argsp["rango_init"] = dd_mm_yyyy_to_date(input("Ingresar fecha de inicio -en formato dd/mm/yyyy- de la busqueda (1/1/1000 por default): "))
-        except ValueError:
-            argsp["rango_init"] = dd_mm_yyyy_to_date("1/1/1000")
+    def input_all(self):
+        print(self.msg + ":")
+        return sys.stdin.read()
 
-        try:
-            argsp["rango_fin"] = dd_mm_yyyy_to_date(input("Ingresar fecha de fin -exclusiva y en formato dd/mm/yyyy- de la busqueda (31/12/2029 por default): "))
-        except ValueError:
-            argsp["rango_fin"] = dd_mm_yyyy_to_date("31/12/2029")
+    def input_line(self):
+        return input(self.msg + ": ")
 
-        return argsp
+    def abs_seek(self, pos):
+        return
 
-class Argv_Input(Input):
-    def take_input(self, **kwargs):
-        argv = kwargs["argv"]
-        return self.parse_args(argv)
+FILE_INPUT = 2
+class File_Input(Input):
+    def __init__(self, filename, skip_header, header_lines=0):
+        self.filename = filename
+        self.file_handle = open(filename, "r")
+        i = 0
+        while i < header_lines and skip_header:
+            self.file_handle.readline()
+            i += 1
 
-    def parse_args(self, argv):
-        opt, args = getopt.getopt(argv, "u:i:f:", ["usuario=", "inicio=", "fin="])
-        argsp = {
-            "user": None,
-            # valores default para delimitar el rango
-            "rango_init": dd_mm_yyyy_to_date("1/1/1000"),
-            "rango_fin": dd_mm_yyyy_to_date("31/12/2029"),
-        }
+    def input_all(self):
+        return self.file_handle.read()
 
-        for tup in opt:
-            o = tup[0].replace("-","")
-            if o[0] == "u":
-                argsp["user"] = tup[1]
-            elif o[0] == "f":
-                argsp["rango_fin"] = dd_mm_yyyy_to_date(tup[1])
-            elif o[0] == "i":
-                argsp["rango_init"] = dd_mm_yyyy_to_date(tup[1])
-            else:
-                raise ValueError("Opcion '%s' no reconocida" % o)
+    def input_line(self):
+        return self.file_handle.readline().replace("\n", "")
 
-        if not argsp["user"]:
-            raise ValueError("Falta parametro necesario\n\nUso:\n\t %s [--user -u] username" % __file__)
+    def abs_seek(self, pos):
+        self.file_handle.seek(pos)
 
-        return argsp
+    def __end__(self):
+        self.file_handle.close()

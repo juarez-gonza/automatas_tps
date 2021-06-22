@@ -1,81 +1,67 @@
-import sys
+from Filter import Filter
+from Input import File_Input
+from Output import File_Output
 
-from Input import *
-from mac import *
-from Conexion import *
-from User import *
+from User import User
 
-from User_Write import *
-from Conn_Write import *
+from dates import dd_mm_yyyy_to_date
 
-in_filename = "acts-user1.txt"
-CSV_SEP = ";"
-USER_FIELD = 1
-CONN_INIT_FIELD = 2
-CONN_FIN_FIELD = 3
-MAC_FIELD = 8
+from parse import parse, namelist
 
-argsp = {}
-err_lines = []
+import cli
 
-def line_parse(line, argsp):
-    global CSV_SEP, USER_FIELD, MAC_FIELD, CONN_INIT_FIELD, CONN_FIN_FIELD
-    fields = line.split(CSV_SEP)
+INPUT_FILENAME = "acts-user1.txt"
+OUTPUT_FILENAME = "output.cvs"
 
-    user = fields[USER_FIELD]
-    if user != argsp["user"]:
-        return None
+def cvs_report_user(user, f_out):
+    if not user.has_multiple_conn():
+        out.write("%s no tiene multiples conexiones" % user.get_username())
+    else:
+        out = "USERNAME,MAC,INI_CONN,FIN_CONN\n"
+        for addr in user.get_addresses():
+            conn = user.find_last_addr_conn(addr)
+            out += "%s,%s,%s,%s\n" % (user.get_username(), conn.get_addr(), conn.get_st_str(), conn.get_end_str())
+        f_out.write_output(out)
 
-    conn_init = fields[CONN_INIT_FIELD]
-    conn_fin = fields[CONN_FIN_FIELD]
+def file_parse(f_in, range_st_obj, range_end_obj, user_filter, date_filter, mac_filter):
+    user = User(user_filter.get_fmt())
 
-    conn_fecha_init = conn_init.split(" ")[0]
-    conn_fecha_fin = conn_fin.split(" ")[0]
-
-    try:
-        conn_fecha_init = dd_mm_yyyy_to_date(conn_fecha_init)
-        conn_fecha_fin = dd_mm_yyyy_to_date(conn_fecha_fin)
-    except ValueError:
-        err_lines.append(line)
-        return None
-
-    if conn_fecha_fin < argsp["rango_init"] or conn_fecha_init >= argsp["rango_fin"]:
-        return None
-
-    mac = fields[MAC_FIELD]
-    try:
-        if not validar_mac(mac):
-            raise ValueError("Mac Invalida")
-    except ValueError:
-        err_lines.append(line)
-        return None
-
-    return Conexion(mac, conn_fecha_init, conn_fecha_fin)
-
-def file_parse(filepath):
-    user = User(argsp["user"])
-
-    with open(filepath, "r") as f:
-        f.readline() # lee el header
-        for line in f:
-            line = line.replace("\n","")
-            conn = line_parse(line, argsp)
-            if conn:
-                user.push_conn(conn)
+    parse(f_in, user, range_st_obj, range_end_obj, user_filter, date_filter, mac_filter)
 
     return user
 
-if __name__ == "__main__":
+def main():
+    date_filter = Filter("[0-3]?[0-9]/[0-1]?[0-9]/[0-2]0[0-2][0-9]", "dd/mm/yyyy")
+    mac_filter = Filter("([0-9a-fA-F]{2}(:|-)){5}[0-9a-f-A-F]{2}")
+    user_filter = Filter("(\S)+")
+
     while True:
-        argsp = CLI_Input().take_input()
-        user = file_parse(in_filename)
-        user_writer = User_Write_CLI(user, Conn_Write_CLI())
-        print(user_writer.write())
+        f_in = File_Input(INPUT_FILENAME, True, 1)
 
-        if "y" in input("Desearia exportar esto a un archivo .csv?[Y/n]").lower():
-            with open("output.cvs", "w") as f:
-                user_writer = User_Write_CSV(user, Conn_Write_CSV())
-                f.write(user_writer.write())
+        cli.cli_report_namelist(namelist(f_in))
 
-        if "n" in input("Desearia reutilizar el programa?[Y/n]").lower():
+        f_in.abs_seek(0)
+        f_in.input_line()
+
+        username, range_st, range_end = cli.cli_take_input(user_filter, date_filter)
+        range_st_obj = dd_mm_yyyy_to_date(range_st)
+        range_end_obj = dd_mm_yyyy_to_date(range_end)
+
+        # redefinir user_filter para usar como filtro en el archivo, setear el formato tambien
+        user_filter = Filter(username, username)
+
+        user = file_parse(f_in, range_st_obj, range_end_obj, user_filter, date_filter, mac_filter)
+        cli.cli_report_user(user)
+
+        if cli.cli_export_prompt():
+            f_out = File_Output(OUTPUT_FILENAME)
+            cvs_report_user(user, f_out)
+            del f_out
+
+        if not cli.cli_continue_prompt():
             break
+
+        del f_in
+
+if __name__ == "__main__":
+    main()
