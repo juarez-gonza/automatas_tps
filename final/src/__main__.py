@@ -1,15 +1,16 @@
-from Filter import Filter
-
 from Input import File_Input, CLI_Input
+from User_Input import CLI_User_Input
+
 from Output import File_Output, CLI_Output
+from Fmt_Report import Fmt_Report_CLI, Fmt_Report_CSV
 
 from N_Cache import N_Cache_CSV
 
+from Filter import Filter
+
 from parse import parse
 
-from User_Input import CLI_User_Input
-
-from Fmt_Report import Fmt_Report_CLI, Fmt_Report_CSV
+from User import User
 
 INPUT_FILENAME = "acts-user1.txt"
 OUTPUT_FILENAME = "output.csv"
@@ -44,9 +45,10 @@ def main():
         username, range_st, range_end = cli_in.main_input(user_filter, date_filter)
 
         # redefinir user_filter para usar como filtro en el archivo, setear el formato tambien
-        user_filter = Filter(username, username)
+        user_filter = Filter(username)
 
-        user = parse(f_in, range_st, range_end, user_filter, date_filter, mac_filter)
+        user = User(username)
+        parse(f_in, user, range_st, range_end, user_filter, date_filter, mac_filter)
 
         reporter_closure = for_each_addr_reporter_closure(cli_reporter, file_reporter)
         user.for_each_addr(reporter_closure)

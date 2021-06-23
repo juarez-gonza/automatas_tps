@@ -2,7 +2,6 @@ from dates import dd_mm_yyyy_to_date
 from common_const import *
 
 from Conn import Conn
-from User import User
 
 err_lines = []
 
@@ -39,8 +38,8 @@ def conn_line_filter(line, user_filter, date_filter, range_st_obj, range_end_obj
 
     return Conn(mac, conn_st, conn_end)
 
-def parse(inp, range_st, range_end, user_filter, date_filter, mac_filter):
-    user = User(user_filter.get_fmt())
+def parse(inp, user, range_st, range_end, user_filter, date_filter, mac_filter):
+
     range_st_obj = dd_mm_yyyy_to_date(range_st)
     range_end_obj = dd_mm_yyyy_to_date(range_end)
     line = ""
