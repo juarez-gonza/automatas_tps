@@ -4,7 +4,7 @@ class Input:
     def input_all(self):
         pass
 
-    def input_line(self):
+    def input_line(self, msg=""):
         pass
 
     def abs_seek(self, pos):
@@ -13,23 +13,25 @@ class Input:
     def tell(self):
         pass
 
+    def __end__(self):
+        pass
+
 CLI_INPUT = 1
 class CLI_Input(Input):
-    def __init__(self, msg):
-        self.msg = msg
-
-    def input_all(self):
-        print(self.msg + ":")
-        return sys.stdin.read()
+    def __init__(self):
+        pass
 
     def input_line(self):
-        return input(self.msg + ": ")
+        return input()
+
+    def input_all(self):
+        return sys.stdin.read()
 
     def abs_seek(self, pos):
         return
 
     def tell(self):
-        pass
+        return
 
 FILE_INPUT = 2
 class File_Input(Input):
@@ -41,17 +43,23 @@ class File_Input(Input):
             self.file_handle.readline()
             i += 1
 
-    def input_all(self):
-        return self.file_handle.read()
+    def input_line(self, msg=""):
+        if msg != "":
+            print(msg + "\n")
 
-    def input_line(self):
         return self.file_handle.readline().replace("\n", "")
+
+    def input_all(self, msg=""):
+        if msg != "":
+            print(msg + "\n")
+
+        return self.file_handle.read()
 
     def abs_seek(self, pos):
         self.file_handle.seek(pos)
 
-    def __end__(self):
-        self.file_handle.close()
-
     def tell(self):
         return self.file_handle.tell()
+
+    def __end__(self):
+        self.file_handle.close()
