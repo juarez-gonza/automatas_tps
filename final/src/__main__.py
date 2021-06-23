@@ -23,14 +23,15 @@ def for_each_addr_reporter_closure(*reporters):
     return reporter_closure
 
 def main():
+    cli_in = CLI_User_Input(CLI_Input(), CLI_Output())
+    f_in = File_Input(INPUT_FILENAME, True, 1)
+
     date_filter = Filter("[0-3]?[0-9]/[0-1]?[0-9]/[0-2]0[0-2][0-9]", "dd/mm/yyyy")
     mac_filter = Filter("([0-9a-fA-F]{2}(:|-)){5}[0-9a-f-A-F]{2}")
     user_filter = Filter("(\S)+")
 
     n_cache = N_Cache_CSV()
 
-    cli_in = CLI_User_Input(CLI_Input(), CLI_Output())
-    f_in = File_Input(INPUT_FILENAME, True, 1)
     while True:
 
         # file_reporter si o si debe iniciarse aca para reescribir el archivo.

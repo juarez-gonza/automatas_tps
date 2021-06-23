@@ -7,9 +7,6 @@ class User:
     def get_username(self):
         return self.username
 
-    def get_addresses(self):
-        return [*self.addresses]
-
     def push_conn(self, conn):
         if conn.address not in self.addresses:
             self.addresses.append(conn.address)

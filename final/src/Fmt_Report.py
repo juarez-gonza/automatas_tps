@@ -17,7 +17,6 @@ class Fmt_Report_CLI(Fmt_Report):
     def __init__(self, out):
         self.out = out
         self.out_msg = ""
-        self.count = 0
 
     def report_conn(self, conn):
         if self.out_msg == "":
