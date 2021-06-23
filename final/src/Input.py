@@ -1,3 +1,6 @@
+# Abstraer lo basico necesario para la toma de input ya sea
+# por CLI, archivos, etc.
+
 import sys
 
 class Input:

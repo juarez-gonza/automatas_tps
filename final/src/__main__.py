@@ -15,6 +15,9 @@ from User import User
 INPUT_FILENAME = "acts-user1.txt"
 OUTPUT_FILENAME = "output.csv"
 
+# retorna una funcion que puede pasarse como argumento a User.for_each_addr
+# logrando que para cada mac_addres del usuario se busque la ultima conexion
+# y se añada al buffer de los reporters recibidos por argumentos en la funcion closure
 def for_each_addr_reporter_closure(*reporters):
     def reporter_closure(user, addr):
         conn = user.find_last_addr_conn(addr)

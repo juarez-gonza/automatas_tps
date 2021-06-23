@@ -1,4 +1,6 @@
-import dates
+# la idea es tener que se encargue del formato
+# la cual tenga la posibilidad de poner datos en un buffer
+# que luego puede descargarse en una instancia de Output con un flush()
 
 class Fmt_Report:
     def report_conn(self, conn):

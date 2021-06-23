@@ -1,3 +1,6 @@
+# Abstraer lo basico necesario para generar output ya sea
+# por CLI, archivos, etc.
+
 import sys
 
 class Output:

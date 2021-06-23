@@ -1,3 +1,6 @@
+# La idea es tener una interfaz contra la cual se pueda obtener input del usuario
+# podría haber una interfaz para CLI, input por archivo, por argumentos en linea de comandos, etc
+
 class User_Input:
     def main_input(self):
         pass
