@@ -1,4 +1,3 @@
-import dates
 
 class Conn:
     def __init__(self, address, st, end):
@@ -9,8 +8,8 @@ class Conn:
     def get_addr(self):
         return self.address
 
-    def get_st_str(self):
-        return dates.date_to_dd_mm_yyyy(self.st)
+    def get_st(self):
+        return self.st
 
-    def get_end_str(self):
-        return dates.date_to_dd_mm_yyyy(self.end)
+    def get_end(self):
+        return self.end

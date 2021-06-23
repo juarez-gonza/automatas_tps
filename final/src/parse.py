@@ -3,6 +3,7 @@ import os
 from dates import dd_mm_yyyy_to_date
 
 from Conn import Conn
+from User import User
 
 from Output import File_Output
 from Input import File_Input
@@ -39,9 +40,9 @@ def namelist(f_in):
     return namelist.namecache
 # static variables @ namelist
 namelist.namecache = []
-namelist.NAMECACHE_FILENAME = "namecache.txt"
+namelist.NAMECACHE_FILENAME = ".namecache.csv"
 
-def line_parse(line, range_st_obj, range_end_obj, user_filter, date_filter, mac_filter):
+def conn_line_filter(line, user_filter, date_filter, range_st_obj, range_end_obj, mac_filter):
     fields = line.split(CSV_SEP)
 
     # check username
@@ -64,7 +65,7 @@ def line_parse(line, range_st_obj, range_end_obj, user_filter, date_filter, mac_
 
     if conn_date_end_obj < range_st_obj \
         or conn_date_st_obj >= range_end_obj:
-            return None
+        return None
 
     # check MAC
     mac = fields[MAC_FIELD]
@@ -72,11 +73,17 @@ def line_parse(line, range_st_obj, range_end_obj, user_filter, date_filter, mac_
         err_lines.append(line)
         return None
 
-    return Conn(mac, conn_date_st_obj, conn_date_end_obj)
+    return Conn(mac, conn_st, conn_end)
 
-def parse(inp, user, range_st_obj, range_end_obj, user_filter, date_filter, mac_filter):
+def parse(inp, range_st, range_end, user_filter, date_filter, mac_filter):
+    user = User(user_filter.get_fmt())
+    range_st_obj = dd_mm_yyyy_to_date(range_st)
+    range_end_obj = dd_mm_yyyy_to_date(range_end)
     line = ""
+
     while line := inp.input_line():
-        conn = line_parse(line, range_st_obj, range_end_obj, user_filter, date_filter, mac_filter)
-        if conn:
-            user.push_conn(conn)
+        conn = conn_line_filter(line, user_filter, date_filter, range_st_obj, range_end_obj, mac_filter)
+        if not conn:
+            continue
+        user.push_conn(conn)
+    return user

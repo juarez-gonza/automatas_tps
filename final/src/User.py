@@ -21,8 +21,11 @@ class User:
     def has_multiple_conn(self):
         return self.addr_quant() > 1
 
-
     def find_last_addr_conn(self, addr):
         for i in range(len(self.conns)-1, -1, -1):
             if self.conns[i].get_addr() == addr:
                 return self.conns[i]
+
+    def for_each_addr(self, closure):
+        for addr in self.addresses:
+            closure(self, addr)

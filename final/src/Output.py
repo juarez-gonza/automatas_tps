@@ -14,10 +14,14 @@ FILE_OUTPUT = 2
 class File_Output(Output):
     def __init__(self, filename, mode="w"):
         self.filename = filename
-        self.file_handle = open(filename, mode)
+        self.mode = mode
+        self.file_handle = None
 
     def write_output(self, msg):
+        if not self.file_handle:
+            self.file_handle = open(self.filename, self.mode)
         self.file_handle.write(msg)
 
     def __end__(self):
-        self.file_handle.close()
+        if self.file_handle is not None:
+            self.file_handle.close()

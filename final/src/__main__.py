@@ -1,67 +1,58 @@
 from Filter import Filter
 from Input import File_Input
-from Output import File_Output
-
-from User import User
-
-from dates import dd_mm_yyyy_to_date
+from Output import File_Output, CLI_Output
 
 from parse import parse, namelist
 
 import cli
 
+from Fmt_Report import Fmt_Report_CLI, Fmt_Report_CSV, Multi_Report
+
 INPUT_FILENAME = "acts-user1.txt"
-OUTPUT_FILENAME = "output.cvs"
+OUTPUT_FILENAME = "output.csv"
 
-def cvs_report_user(user, f_out):
-    if not user.has_multiple_conn():
-        out.write("%s no tiene multiples conexiones" % user.get_username())
-    else:
-        out = "USERNAME,MAC,INI_CONN,FIN_CONN\n"
-        for addr in user.get_addresses():
-            conn = user.find_last_addr_conn(addr)
-            out += "%s,%s,%s,%s\n" % (user.get_username(), conn.get_addr(), conn.get_st_str(), conn.get_end_str())
-        f_out.write_output(out)
-
-def file_parse(f_in, range_st_obj, range_end_obj, user_filter, date_filter, mac_filter):
-    user = User(user_filter.get_fmt())
-
-    parse(f_in, user, range_st_obj, range_end_obj, user_filter, date_filter, mac_filter)
-
-    return user
+def for_each_addr_reporter_closure(reporter):
+    def reporter_closure(user, addr):
+        conn = user.find_last_addr_conn(addr)
+        reporter.report_conn(conn)
+    return reporter_closure
 
 def main():
     date_filter = Filter("[0-3]?[0-9]/[0-1]?[0-9]/[0-2]0[0-2][0-9]", "dd/mm/yyyy")
     mac_filter = Filter("([0-9a-fA-F]{2}(:|-)){5}[0-9a-f-A-F]{2}")
     user_filter = Filter("(\S)+")
 
-    while True:
-        f_in = File_Input(INPUT_FILENAME, True, 1)
+    cli_reporter = Fmt_Report_CLI(CLI_Output())
+    file_reporter = Fmt_Report_CSV(File_Output(OUTPUT_FILENAME))
+    m_reporter = Multi_Report(file_reporter, cli_reporter)
 
-        cli.cli_report_namelist(namelist(f_in))
+    f_in = File_Input(INPUT_FILENAME, True, 1)
+    while True:
+
+        cli_reporter.report_namelist(namelist(f_in))
+        cli_reporter.flush()
 
         f_in.abs_seek(0)
         f_in.input_line()
 
         username, range_st, range_end = cli.cli_take_input(user_filter, date_filter)
-        range_st_obj = dd_mm_yyyy_to_date(range_st)
-        range_end_obj = dd_mm_yyyy_to_date(range_end)
 
         # redefinir user_filter para usar como filtro en el archivo, setear el formato tambien
         user_filter = Filter(username, username)
 
-        user = file_parse(f_in, range_st_obj, range_end_obj, user_filter, date_filter, mac_filter)
-        cli.cli_report_user(user)
+        user = parse(f_in, range_st, range_end, user_filter, date_filter, mac_filter)
+        reporter_closure = for_each_addr_reporter_closure(m_reporter)
+        user.for_each_addr(reporter_closure)
 
+        cli_reporter.flush()
         if cli.cli_export_prompt():
-            f_out = File_Output(OUTPUT_FILENAME)
-            cvs_report_user(user, f_out)
-            del f_out
+            file_reporter.flush()
 
         if not cli.cli_continue_prompt():
             break
 
-        del f_in
+        f_in.abs_seek(0)
+        m_reporter.clean()
 
 if __name__ == "__main__":
     main()
