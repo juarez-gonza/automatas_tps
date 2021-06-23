@@ -1,3 +1,5 @@
+import sys
+
 class Output:
     def write_output(self, msg):
         pass
@@ -8,7 +10,8 @@ class CLI_Output(Output):
         pass
 
     def write_output(self, msg):
-        print(msg)
+        sys.stdout.write(msg)
+        sys.stdout.flush()
 
 FILE_OUTPUT = 2
 class File_Output(Output):
@@ -21,6 +24,7 @@ class File_Output(Output):
         if not self.file_handle:
             self.file_handle = open(self.filename, self.mode)
         self.file_handle.write(msg)
+        self.file_handle.flush()
 
     def __end__(self):
         if self.file_handle is not None:

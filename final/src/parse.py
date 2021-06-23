@@ -1,46 +1,10 @@
-import os
-
 from dates import dd_mm_yyyy_to_date
+from common_const import *
 
 from Conn import Conn
 from User import User
 
-from Output import File_Output
-from Input import File_Input
-
-CSV_SEP = ";"
-USER_FIELD = 1
-CONN_ST_FIELD = 2
-CONN_END_FIELD = 3
-MAC_FIELD = 8
-
 err_lines = []
-
-def namelist(f_in):
-
-    if namelist.namecache:
-        pass
-    elif os.path.isfile(namelist.NAMECACHE_FILENAME):
-        f_cache_in = File_Input(namelist.NAMECACHE_FILENAME, False)
-        namelist.namecache = [*f_cache_in.input_line().split(",")]
-        del f_cache_in
-    else:
-        f_out = File_Output(namelist.NAMECACHE_FILENAME)
-
-        line = ""
-        while line := f_in.input_line():
-            fields = line.split(CSV_SEP)
-            username = fields[USER_FIELD]
-            if username not in namelist.namecache:
-                namelist.namecache.append(username)
-        f_out.write_output(",".join(namelist.namecache))
-
-        del f_out
-
-    return namelist.namecache
-# static variables @ namelist
-namelist.namecache = []
-namelist.NAMECACHE_FILENAME = ".namecache.csv"
 
 def conn_line_filter(line, user_filter, date_filter, range_st_obj, range_end_obj, mac_filter):
     fields = line.split(CSV_SEP)

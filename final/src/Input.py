@@ -10,6 +10,9 @@ class Input:
     def abs_seek(self, pos):
         pass
 
+    def tell(self):
+        pass
+
 CLI_INPUT = 1
 class CLI_Input(Input):
     def __init__(self, msg):
@@ -24,6 +27,9 @@ class CLI_Input(Input):
 
     def abs_seek(self, pos):
         return
+
+    def tell(self):
+        pass
 
 FILE_INPUT = 2
 class File_Input(Input):
@@ -46,3 +52,6 @@ class File_Input(Input):
 
     def __end__(self):
         self.file_handle.close()
+
+    def tell(self):
+        return self.file_handle.tell()
