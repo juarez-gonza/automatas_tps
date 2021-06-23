@@ -1,4 +1,3 @@
-
 class Conn:
     def __init__(self, address, st, end):
         self.address = address # string

@@ -4,7 +4,7 @@ class Input:
     def input_all(self):
         pass
 
-    def input_line(self, msg=""):
+    def input_line(self):
         pass
 
     def abs_seek(self, pos):
@@ -43,16 +43,10 @@ class File_Input(Input):
             self.file_handle.readline()
             i += 1
 
-    def input_line(self, msg=""):
-        if msg != "":
-            print(msg + "\n")
-
+    def input_line(self):
         return self.file_handle.readline().replace("\n", "")
 
-    def input_all(self, msg=""):
-        if msg != "":
-            print(msg + "\n")
-
+    def input_all(self):
         return self.file_handle.read()
 
     def abs_seek(self, pos):
