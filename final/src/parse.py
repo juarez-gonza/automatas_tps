@@ -5,12 +5,12 @@ from Conn import Conn
 
 err_lines = []
 
-def conn_line_filter(line, user_filter, date_filter, range_st_obj, range_end_obj, mac_filter):
+def conn_line_filter(line, username_filter, mac_filter, date_filter, range_st_obj, range_end_obj):
     fields = line.split(CSV_SEP)
 
     # check username
     username = fields[USER_FIELD]
-    if not user_filter.match(username):
+    if not username_filter.match(username):
         return None
 
     # check conn date
@@ -38,14 +38,16 @@ def conn_line_filter(line, user_filter, date_filter, range_st_obj, range_end_obj
 
     return Conn(mac, conn_st, conn_end)
 
-def parse(inp, user, range_st, range_end, user_filter, date_filter, mac_filter):
+def parse(inp, user, username_filter, mac_filter, date_filter, range_st, range_end):
 
     range_st_obj = dd_mm_yyyy_to_date(range_st)
     range_end_obj = dd_mm_yyyy_to_date(range_end)
     line = ""
 
+    i = 0
     while line := inp.input_line():
-        conn = conn_line_filter(line, user_filter, date_filter, range_st_obj, range_end_obj, mac_filter)
+        i += 1
+        conn = conn_line_filter(line, username_filter, mac_filter, date_filter, range_st_obj, range_end_obj)
         if not conn:
             continue
         user.push_conn(conn)

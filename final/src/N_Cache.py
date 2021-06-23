@@ -5,6 +5,9 @@ from Input import File_Input
 
 from common_const import *
 
+# Cache de lista de nombres para evitar leer todo el archivo en busca
+# de nombres cuando posible
+
 class N_Cache:
     # @f_in: instancia de File_Input por si falla la obtencion de cache
     def namelist(self, f_in):
@@ -21,7 +24,7 @@ class N_Cache_CSV(N_Cache):
         elif path.isfile(self.namecache_filename):
             self._got_filecache()
         else:
-            self._no_cahce(f_in)
+            self._no_cache(f_in)
 
         return self.namecache
 
@@ -47,4 +50,4 @@ class N_Cache_CSV(N_Cache):
         del f_out
 
         # restorar posicion en f_in
-        f_in.abs_pos(f_in_pos)
+        f_in.abs_seek(f_in_pos)

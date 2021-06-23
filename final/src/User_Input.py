@@ -20,30 +20,30 @@ class CLI_User_Input():
         username = ""
         while not user_filter.match(username):
             self.c_out.write_output("Nombre de usuario a buscar: ")
-            username = self.c_in.input_line()
+            username = self.c_in.input_line().strip()
 
         self.c_out.write_output("Fecha de inicio de rango de busqueda en formato %s [default]: " % date_filter.get_fmt())
-        range_st = self.c_in.input_line()
+        range_st = self.c_in.input_line().strip()
         if not date_filter.match(range_st):
-            self.c_out.write_output("Formato de '%s' no reconocido, Se procederá con el valor default para el campo" % range_st)
+            self.c_out.write_output("Formato de '%s' no reconocido, Se procederá con el valor default para el campo\n" % range_st)
             range_st = range_st_default
 
         self.c_out.write_output("Fecha de fin de rango de busqueda en formato %s [default]: " % date_filter.get_fmt())
-        range_end = self.c_in.input_line()
+        range_end = self.c_in.input_line().strip()
         if not date_filter.match(range_end):
-            self.c_out.write_output("Formato de '%s' no reconocido, Se procederá con el valor default para el campo" % range_end)
+            self.c_out.write_output("Formato de '%s' no reconocido, Se procederá con el valor default para el campo\n" % range_end)
             range_end = range_end_default
 
         return username, range_st, range_end
 
     def continue_prompt(self):
         self.c_out.write_output("Desea volver a correr el programa? [Y/n]: ")
-        if "y" in self.c_in.input_line().lower():
+        if "y" in self.c_in.input_line().strip().lower():
             return True
         return False
 
     def export_prompt(self):
         self.c_out.write_output("Desea exportar los resultados a un archivo .cvs? [Y/n]: ")
-        if "y" in self.c_in.input_line().lower():
+        if "y" in self.c_in.input_line().strip().lower():
             return True
         return False

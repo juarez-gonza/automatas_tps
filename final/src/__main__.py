@@ -48,11 +48,14 @@ def main():
 
         username, range_st, range_end = cli_in.main_input(user_filter, date_filter)
 
-        # redefinir user_filter para usar como filtro en el archivo, setear el formato tambien
-        user_filter = Filter(username)
+        # esto logra que se puedan tomar expresiones regex como input, pero en el algoritmo fallaria
+        # en dividirse conexion segun usuario, o sea, se mostrarian todas las conexiones
+        # de los usuarios que hagan match con la expresion pero sin distinguir a qué usuario en particular
+        # pertenece cada conexion.
+        username_filter = Filter(username)
 
         user = User(username)
-        parse(f_in, user, range_st, range_end, user_filter, date_filter, mac_filter)
+        parse(f_in, user, username_filter, mac_filter, date_filter, range_st, range_end)
 
         reporter_closure = for_each_addr_reporter_closure(cli_reporter, file_reporter)
         user.for_each_addr(reporter_closure)
