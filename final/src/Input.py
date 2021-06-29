@@ -4,10 +4,10 @@
 import sys
 
 class Input:
-    def input_all(self):
+    def get_all(self):
         pass
 
-    def input_line(self):
+    def getline(self):
         pass
 
     def abs_seek(self, pos):
@@ -19,15 +19,14 @@ class Input:
     def __end__(self):
         pass
 
-CLI_INPUT = 1
 class CLI_Input(Input):
     def __init__(self):
         pass
 
-    def input_line(self):
+    def getline(self):
         return input()
 
-    def input_all(self):
+    def get_all(self):
         return sys.stdin.read()
 
     def abs_seek(self, pos):
@@ -36,7 +35,6 @@ class CLI_Input(Input):
     def tell(self):
         return
 
-FILE_INPUT = 2
 class File_Input(Input):
     def __init__(self, filename, skip_header, header_lines=0):
         self.filename = filename
@@ -46,10 +44,10 @@ class File_Input(Input):
             self.file_handle.readline()
             i += 1
 
-    def input_line(self):
+    def getline(self):
         return self.file_handle.readline().replace("\n", "")
 
-    def input_all(self):
+    def get_all(self):
         return self.file_handle.read()
 
     def abs_seek(self, pos):

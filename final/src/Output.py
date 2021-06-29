@@ -4,26 +4,24 @@
 import sys
 
 class Output:
-    def write_output(self, msg):
+    def write(self, msg):
         pass
 
-CLI_OUTPUT = 1
 class CLI_Output(Output):
     def __init__(self):
         pass
 
-    def write_output(self, msg):
+    def write(self, msg):
         sys.stdout.write(msg)
         sys.stdout.flush()
 
-FILE_OUTPUT = 2
 class File_Output(Output):
     def __init__(self, filename, mode="w"):
         self.filename = filename
         self.mode = mode
         self.file_handle = None
 
-    def write_output(self, msg):
+    def write(self, msg):
         if not self.file_handle:
             self.file_handle = open(self.filename, self.mode)
         self.file_handle.write(msg)

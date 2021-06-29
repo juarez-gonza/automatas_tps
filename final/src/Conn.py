@@ -1,8 +1,12 @@
 class Conn:
-    def __init__(self, address, st, end):
-        self.address = address # string
-        self.st = st # objeto date
-        self.end = end # objeto date
+    def __init__(self, owner, address, st, end):
+        self.owner = owner      # User obj
+        self.address = address  # string
+        self.st = st            # string
+        self.end = end          # string
+
+    def get_owner(self):
+        return self.owner
 
     def get_addr(self):
         return self.address
