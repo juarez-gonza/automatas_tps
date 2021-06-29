@@ -2,6 +2,7 @@ from dates import dd_mm_yyyy_to_date
 from common import *
 
 from Conn import Conn
+from User import User
 
 def check_username(user, user_field):
     if user.get_username() != user_field:
@@ -50,8 +51,9 @@ def conn_line_filter(line, user, range_st_obj, range_end_obj):
 
     return Conn(user, mac, conn_st, conn_end)
 
-def parse(inp, user, range_st, range_end):
+def parse(inp, username, range_st, range_end):
 
+    user = User(username)
     range_st_obj = dd_mm_yyyy_to_date(range_st)
     range_end_obj = dd_mm_yyyy_to_date(range_end)
     line = ""
@@ -64,3 +66,4 @@ def parse(inp, user, range_st, range_end):
         except ValueError:
             continue
         user.push_conn(conn)
+    return user

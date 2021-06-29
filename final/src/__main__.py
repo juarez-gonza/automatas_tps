@@ -9,9 +9,8 @@ from Conn_Reporter import CLI_Conn_Reporter, CSV_Conn_Reporter
 # Cache de nombres
 from Name_Cache import Name_Cache_CSV, print_namelist
 
-from User import User, addr_f_obj
-
 from parse import parse
+from User import  addr_f_obj
 
 INPUT_FILENAME = "acts-user1.txt"
 OUTPUT_FILENAME = "output.csv"
@@ -30,8 +29,7 @@ def main():
         print_namelist(outp, namecache.namelist(file_input))
         username, range_st, range_end = cli_input.main_input()
 
-        user = User(username)
-        parse(file_input, user, range_st, range_end)
+        user = parse(file_input, username, range_st, range_end)
 
         addr_fc = addr_f_obj(cli_reporter, file_reporter)
         user.for_each_addr(addr_fc)
